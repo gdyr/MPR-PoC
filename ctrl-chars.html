@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Metakey Pattern Recognition</title>
+  </head>
+  <body>
+    <center>
+      <h1 id="prompt">Waiting for reader...</h1>
+      Press Ctrl 3x rapidly
+      <br /> <br /> <br />
+      <h1 id="cardno"></h1>
+    </center>
+    <script>
+      var i = 0;
+
+      var timer;
+      function restartTimer() {
+        timer = setTimeout(function() {
+          i = 0;
+          console.log('reset');
+        }, 300);
+      }
+      restartTimer();
+
+      var READING = false;
+      function switchMode(mode) {
+        document.getElementById('prompt').innerHTML = (mode == 'card' ? 'Reading card details...' : 'Waiting for reader...');
+        READING = true;
+      }
+
+      document.onkeydown = function(e) {
+
+        if(e.which == 17) {
+          restartTimer();
+          i++;
+          if(i >= 3) {
+            switchMode('card');
+          }
+        }
+
+      };
+
+      document.onkeypress = function(e) {
+        if(READING && !isNaN(parseFloat(e.key)) && isFinite(e.key)) {
+          document.getElementById('cardno').innerHTML += e.key;
+        }
+      }
+
+    </script>
+  </body>
+</html>
